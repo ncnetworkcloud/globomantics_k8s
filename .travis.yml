@@ -21,12 +21,14 @@ install:
 # security vulnerabilities. Skips B101 "assert" statements which are
 # valid for pytest and are not security concerns here.
 # Once containers are up, print them out for logging purposes.
+# Newly added: Script to wait until HTTPS on port 5000 is responding.
 before_script:
   - "pylint src/*.py"
   - "bandit src/*.py --skip B101"
   - "pytest --verbose src/test_unit.py"
   - "docker-compose up --detach"
   - "docker container ls"
+  - "./wait_for_https.sh"
 
 # Run the system tests to ensure the web server is functional.
 script:
