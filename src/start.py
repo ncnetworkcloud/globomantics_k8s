@@ -34,7 +34,7 @@ def after_request(response):
     case, it isn't relevant, so just return it.
     """
     db.disconnect()
-    app.logger.debug("Disonnected from db")
+    app.logger.debug("Disconnected from db")
     return response
 
 
