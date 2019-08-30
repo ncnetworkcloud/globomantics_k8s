@@ -43,7 +43,7 @@ class Database:
 
                 # Connect to the database, and if everything works, stop loop
                 self.meta.create_all()
-                self.conn = self.engine.connect()
+                self.connect()
                 break
             except:
                 # Wait 5 seconds to try again
@@ -59,16 +59,26 @@ class Database:
         with open(seed_path, "r") as handle:
             data = json.load(handle)
 
-        # Perform a bulk INSERT of all seed accounts into the database.
+        # Perform a bulk INSERT of all seed accounts into the db, then close
         self.result = self.conn.execute(self.table.insert(), data)
+        self.disconnect()
 
-    def __del__(self):
+    def connect(self):
         """
-        Destructor runs when the object is garbage-collected. Close the
-        existing session.
+        Open (connect) the connection to the database.
         """
-        if hasattr(self, "conn"):
+        self.conn = self.engine.connect()
+        if self.conn.closed:
+            raise OSError("connect() succeeded but session is still closed")
+
+    def disconnect(self):
+        """
+        Close (disconnect) the connection to the database.
+        """
+        if hasattr(self, "conn") and not self.conn.closed:
             self.conn.close()
+            if not self.conn.closed:
+                raise OSError("close() succeeded but session is still open")
 
     def balance(self, acct_id):
         """

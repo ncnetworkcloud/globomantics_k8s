@@ -28,7 +28,7 @@ before_script:
   - "pytest --verbose src/test_unit.py"
   - "docker-compose up --detach"
   - "docker container ls"
-  - "./wait_for_https.sh"
+  - "./wait_for_https.sh 60"
 
 # Run the system tests to ensure the web server is functional.
 script:

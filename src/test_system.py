@@ -16,7 +16,11 @@ def kwargs():
     Test fixture setup to disable SSL self-signed certificate warnings.
     """
     requests.packages.urllib3.disable_warnings()
-    return {"url": "https://localhost:5000", "verify": False, "headers": {"Accept": "text/html"}}
+    return {
+        "url": "https://localhost:5000",
+        "verify": False,
+        "headers": {"Accept": "text/html"},
+    }
 
 
 def test_get_good_page(kwargs):
@@ -55,7 +59,9 @@ def test_post_bad_acct(kwargs):
 
 
 def _post_acct(kwargs, acct):
-    kwargs["headers"].update({"Content-Type": "application/x-www-form-urlencoded"})
+    kwargs["headers"].update(
+        {"Content-Type": "application/x-www-form-urlencoded"}
+    )
 
     resp = requests.post(**kwargs, data=f"acctid={acct['acctid']}")
     assert resp.status_code == 200

@@ -17,6 +17,27 @@ app = Flask(__name__)
 db = Database("mysql://root:globomantics@db/db", "data/initial.json")
 
 
+@app.before_request
+def before_request():
+    """
+    Called before HTTP request is processed. Opens the connection to the DB.
+    """
+    db.connect()
+    app.logger.debug("Connected to db")
+
+
+@app.after_request
+def after_request(response):
+    """
+    Called after HTTP request is processed. Close the connection to the DB.
+    The "response" parameter provides access to the HTTP response but in our
+    case, it isn't relevant, so just return it.
+    """
+    db.disconnect()
+    app.logger.debug("Disonnected from db")
+    return response
+
+
 @app.route("/", methods=["GET", "POST"])
 def index():
     """
