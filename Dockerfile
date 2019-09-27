@@ -14,6 +14,10 @@ RUN apk add --no-cache mariadb-dev build-base && \
 # the container. This is referenced by the Flask app.
 COPY ssl /ssl
 
+# Rather than use a bind mount, we can also package our source code
+# with the container. This makes CD via k8s easier.
+COPY src /src
+
 # Change into the correct directory. WORKDIR is the Docker best practice
 # versus "RUN cd /src" as it is cleaner and more explicit.
 WORKDIR /src
