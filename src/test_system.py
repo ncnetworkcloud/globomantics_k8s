@@ -8,6 +8,7 @@ with dockerized web servers within a CI/CD pipeline.
 
 import requests
 import pytest
+from bs4 import BeautifulSoup
 
 
 @pytest.fixture()
@@ -59,14 +60,44 @@ def test_post_bad_acct(kwargs):
 
 
 def _post_acct(kwargs, acct):
+    """
+    Helper function to perform a post request. Takes in the keyword
+    arguments (basic site data) and the account data to check.
+    """
+
+    # Need additional headers, content-type typically need for POSTs
+    # Also need Referer for CSRF to function correctly
     kwargs["headers"].update(
-        {"Content-Type": "application/x-www-form-urlencoded"}
+        {
+            "Content-Type": "application/x-www-form-urlencoded",
+            "Referer": kwargs["url"],
+        }
     )
 
-    resp = requests.post(**kwargs, data=f"acctid={acct['acctid']}")
-    assert resp.status_code == 200
+    # Need to use a session to retain cookie state (helps with CSRF)
+    sess = requests.session()
+
+    # Issue GET request to get the CSRF token
+    get_resp = sess.get(**kwargs)
+    assert get_resp.status_code == 200
+
+    # Parse the CSRF token from the HTML body text
+    soup = BeautifulSoup(get_resp.text, "html.parser")
+    csrf = soup.find("input", {"name": "csrf_token"})
+    csrf_token = csrf["value"]
+
+    # Assemble the data string which contains the CSRF token and
+    # the account ID to query
+    data = f"csrf_token={csrf_token}&acctid={acct['acctid']}"
+
+    # Issue the POST request using the custom data string and updated headers
+    post_resp = sess.post(**kwargs, data=data)
+    assert post_resp.status_code == 200
+
+    # Perform checks to ensure the account balance is correct
+    # If the account is invalid, ensure the proper message is displayed
     balance = acct.get("acctbal")
     if balance:
-        assert f"Account balance: {balance}" in resp.text
+        assert f"Account balance: {balance}" in post_resp.text
     else:
-        assert "Unknown account number" in resp.text
+        assert "Unknown account number" in post_resp.text

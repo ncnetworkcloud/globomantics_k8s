@@ -9,9 +9,13 @@ previous revisions by adding a MySQL database in another Docker container.
 
 from flask import Flask, render_template, request
 from database import Database
+from flask_wtf.csrf import CSRFProtect
+import os
+
 
 # Create Flask object
 app = Flask(__name__)
+csrf = CSRFProtect(app)
 
 # Initialize a MySQL database towards the other container
 db = Database("mysql://root:globomantics@db/db", "data/initial.json")
@@ -72,6 +76,8 @@ def index():
 if __name__ == "__main__":
     # Identify the certificate and key as a 2-tuple
     ctx = ssl_context = ("../ssl/cert.pem", "../ssl/key.pem")
+
+    app.secret_key = os.urandom(24)
 
     # Start Flask app. The "host" and "debug" options are both security
     # concerns, but for testing, we ignore them with the "nosec comment"
