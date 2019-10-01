@@ -7,10 +7,10 @@ Purpose: A simple Flask web app that demonstrates the Model View Controller
 previous revisions by adding a MySQL database in another Docker container.
 """
 
-from flask import Flask, render_template, request
-from database import Database
-from flask_wtf.csrf import CSRFProtect
 import os
+from flask import Flask, render_template, request
+from flask_wtf.csrf import CSRFProtect
+from database import Database
 
 
 # Create Flask object
