@@ -1,4 +1,5 @@
 #!/bin/bash
+# Perform basic setup needed to interact with the AWS EKS cluster.
 
 # Installs the "kubectl" binary to simplify interaction with the k8s cluster.
 # Docs here: https://kubernetes.io/docs/tasks/tools/install-kubectl/

@@ -48,5 +48,6 @@ before_deploy:
 # Apply changes to k8s based on declarative YAML files.
 # This results in new objects being created the first time.
 deploy:
-  - "kubectl apply -f k8s/manifest"
+  provider: "script"
+  script: "./k8s/deploy_k8s.sh"
 ...
