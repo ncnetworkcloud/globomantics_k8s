@@ -16,11 +16,4 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: "globomantics"
       MYSQL_DATABASE: "db"
-
-#volumes:
-#  dbvol:
-#    volumes:
-#      - type: "volume"
-#        source: "dbvol"
-#        target: "/var/lib/mysql"
 ...

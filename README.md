@@ -80,15 +80,13 @@ several Bash scripts:
       * `mysql_pod.yml`: Creates a pod for the mysql (db) container.
       * `mysql_svc.yml`: Creates a service "db" for the mysql container.
 
-DEVCOR topics addressed:
-  - static code analysis with `bandit`
-  - dockerizing app
-  - configure app SSL certs
-  - choosing DB based on business needs
-  - troubleshooting pipeline failures (can introduce)
-  - more on unit/system tests
-  - example of distributed app
-  - example of SOA (??)
-  - example of logging strategy
-  - possible mitigation for SQL injection by using sqlalchemy?
-
+## Other scripts
+In addition to `make_cert.sh`, there a few other scripts worth mentioning:
+  * `quick.sh`: This runs a quick regression test of the entire CI
+    test pipeline without CD. It is handy for local testing before `git push`
+    to ensure the application is generally functional.
+  * `wait_for_https.sh`: Waits for the application to respond to HTTPS
+    requests. The database takes time to start up, so the script should hang
+    until HTTPS is responding to ensure the system tests that follow do
+    not fail (false negatives). This takes one argument which specifies
+    the number of seconds to wait. The value 60 appears to work well.
