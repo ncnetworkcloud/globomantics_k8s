@@ -75,8 +75,9 @@ def index():
 
 if __name__ == "__main__":
     # Identify the certificate and key as a 2-tuple
-    ctx = ssl_context = ("../ssl/cert.pem", "../ssl/key.pem")
+    ctx = ("../ssl/cert.pem", "../ssl/key.pem")
 
+    # Assign random flask secret_key to assist with CSRF
     app.secret_key = os.urandom(24)
 
     # Start Flask app. The "host" and "debug" options are both security

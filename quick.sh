@@ -2,6 +2,8 @@
 # Quick test script to run for local testing.
 # Generally follows the Travis CI process stages.
 
+# Optionally generate new certs
+# ./make_cert.sh
 pylint src/*.py
 bandit src/*.py --skip B101
 pytest src/test_unit.py

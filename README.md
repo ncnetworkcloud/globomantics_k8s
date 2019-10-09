@@ -8,7 +8,7 @@ prerequisite courses by introducing a number of advanced techniques:
   - Continuous Deployment (CD) to AWS Elastic Kubernetes Service (EKS)
 
 ## Source code
-All sourec code, including tests, are including in the `src/` directory.
+All source code, including tests, are including in the `src/` directory.
 The key files in that directory are described below.
   * `database.py`: Defines the `Database` class which provides a simple
     interface to the SQL database included with the app. This can be a
