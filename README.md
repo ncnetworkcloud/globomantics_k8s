@@ -13,3 +13,5 @@ In addition to `make_cert.sh`, there a few other scripts worth mentioning:
     until HTTPS is responding to ensure the system tests that follow do
     not fail (false negatives). This takes one argument which specifies
     the number of seconds to wait. The value 60 appears to work well.
+
+test update
