@@ -38,15 +38,4 @@ script:
 # Newly added: Also delete leftover data created by MySQL volume.
 after_script:
   - "docker-compose down --volumes"
-
-# Push newly-built and tested flask image up to dockerhub.
-# Install kubectl and other packages to interact with k8s cluster.
-before_deploy:
-  - "./k8s/push_to_dockerhub.sh"
-  - "./k8s/install_k8s_pkgs.sh"
-
-# Run the deployment script (applies k8s changes).
-deploy:
-  provider: "script"
-  script: "./k8s/deploy_k8s.sh"
 ...

@@ -7,15 +7,12 @@ Purpose: A simple Flask web app that demonstrates the Model View Controller
 previous revisions by adding a MySQL database in another Docker container.
 """
 
-import os
 from flask import Flask, render_template, request
-from flask_wtf.csrf import CSRFProtect
 from database import Database
 
 
 # Create Flask object
 app = Flask(__name__)
-csrf = CSRFProtect(app)
 
 # Initialize a MySQL database towards the other container
 db = Database("mysql://root:globomantics@db/db", "data/initial.json")
@@ -77,11 +74,8 @@ if __name__ == "__main__":
     # Identify the certificate and key as a 2-tuple
     ctx = ("../ssl/cert.pem", "../ssl/key.pem")
 
-    # Assign random flask secret_key to assist with CSRF
-    app.secret_key = os.urandom(24)
-
     # Start Flask app. The "host" and "debug" options are both security
     # concerns, but for testing, we ignore them with the "nosec comment"
     app.run(
-        host="0.0.0.0", debug=True, use_reloader=False, ssl_context=ctx  # nosec
+        host="0.0.0.0", debug=True, use_reloader=False, ssl_context=ctx  #nosec
     )

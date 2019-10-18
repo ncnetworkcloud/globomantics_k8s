@@ -5,6 +5,3 @@ pylint
 bandit
 mysqlclient
 SQLAlchemy
-awscli
-flask-WTF
-bs4

@@ -8,7 +8,7 @@ LABEL maintainer="njrusmc@gmail.com"
 # is deployed. The apk packages are required by mysqlclient (odd)
 # and are not the focus. We then install the required Python packages.
 RUN apk add --no-cache mariadb-dev build-base && \
-    pip install flask Flask-WTF SQLAlchemy mysqlclient
+    pip install flask SQLAlchemy mysqlclient
 
 # Copy semi-permanent SSL self-signed certificate and private key into
 # the container. This is referenced by the Flask app.
