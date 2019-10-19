@@ -94,7 +94,7 @@ class Database:
         result = self.conn.execute(select_acct)
         acct = result.fetchone()
         if acct:
-            bal = acct["due"] - acct["paid"]
+            bal = acct["paid"] - acct["due"]
             return f"{bal:.2f} USD"
 
         return None
