@@ -1,4 +1,4 @@
-flask==0.1
+flask
 requests
 pytest
 pylint
